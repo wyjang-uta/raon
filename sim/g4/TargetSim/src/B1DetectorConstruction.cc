@@ -67,7 +67,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   //
   // World
   //
-  G4double world_sizeXY = 11.0*m;
+  G4double world_sizeXY = 1.1*m;
   G4double world_sizeZ  = 1.1*m;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
