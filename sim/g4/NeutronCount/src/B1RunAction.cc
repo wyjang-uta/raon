@@ -56,13 +56,13 @@ B1RunAction::B1RunAction()
   analysisManager->SetVerboseLevel(1);
 
   // Create an Ntuple
-  analysisManager->CreateNtuple("RAONSCL2", "RAONSCL2");
+  analysisManager->CreateNtuple("RAON-NeutronCount", "RAON-NeutronCount");
   analysisManager->CreateNtupleDColumn("event_type");
   analysisManager->CreateNtupleDColumn("kineticEnergy");
   analysisManager->CreateNtupleDColumn("totalEnergy");
-  analysisManager->CreateNtupleDColumn("vertex_x");
-  analysisManager->CreateNtupleDColumn("vertex_y");
-  analysisManager->CreateNtupleDColumn("vertex_z");
+  analysisManager->CreateNtupleDColumn("hit_x");              // 센서볼륨상의 hit 위치
+  analysisManager->CreateNtupleDColumn("hit_y");
+  analysisManager->CreateNtupleDColumn("hit_z");
   analysisManager->CreateNtupleDColumn("px");
   analysisManager->CreateNtupleDColumn("py");
   analysisManager->CreateNtupleDColumn("pz");
