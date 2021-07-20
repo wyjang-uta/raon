@@ -64,7 +64,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   if( step->GetTrack()->GetParticleDefinition()->GetPDGEncoding() != 2112 ) return; // only neutrons
   if( postsp->GetTouchableHandle()->GetVolume() == nullptr ) return;
   if( presp->GetTouchableHandle()->GetVolume() == nullptr ) return;
-  if( postsp->GetTouchableHandle()->GetVolume()->GetLogicalVolume()->GetName() != "sensor_volume" ) return;
+  if( postsp->GetTouchableHandle()->GetVolume()->GetLogicalVolume()->GetName() != "sensor_volume" ) return; // save only neutrons passing decay chamber
   if( presp->GetTouchableHandle()->GetVolume()->GetLogicalVolume()->GetName() == "Dump")
   {
     evt_type = 1;  // This is for the case that neutron comes from the dump.
@@ -74,7 +74,24 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
     evt_type = 2; // This is for the case that neutrons are coming from the world volume.
   }
 
-
+  G4double KE=(G4double)postsp->GetKineticEnergy()/CLHEP::MeV;
+  G4double TE=(G4double)postsp->GetTotalEnergy()/CLHEP::MeV;
+  G4double vx=(G4double)postsp->GetPosition().getX()/CLHEP::m;
+  G4double vy=(G4double)postsp->GetPosition().getY()/CLHEP::m;
+  G4double vz=(G4double)postsp->GetPosition().getZ()/CLHEP::m;
+  G4double px=(G4double)postsp->GetMomentum().getX()/CLHEP::MeV;
+  G4double py=(G4double)postsp->GetMomentum().getY()/CLHEP::MeV;
+  G4double pz=(G4double)postsp->GetMomentum().getZ()/CLHEP::MeV;
+  G4double theta=acos(pz/sqrt(px*px+py*py+pz*pz));
+  G4cout << "Sensor volume captured a neutron event!" << G4endl;
+  G4cout << "K=" << KE << "/ E=" << TE <<
+	  "/ vx=" << vx <<
+	  "/ vy=" << vy <<
+	  "/ vz=" << vz <<
+	  "/ px=" << px <<
+	  "/ py=" << py <<
+	  "/ pz=" << pz <<
+	  "/ theta=" << theta << G4endl;
   // event type
   analysisManager->FillNtupleDColumn(0, (G4double)evt_type );
   // kineticEnergy
