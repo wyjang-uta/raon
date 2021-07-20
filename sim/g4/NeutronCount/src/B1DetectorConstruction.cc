@@ -91,7 +91,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                       checkOverlaps);        //overlaps checking
 
   //
-  // Fe dump
+  // W dump
   //
   G4double r_dump = 0.5 * m;
   G4double l_dump = 1.0 * m;
