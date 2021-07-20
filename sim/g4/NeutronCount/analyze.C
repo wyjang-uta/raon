@@ -45,7 +45,9 @@ void analyze()
     hy->Fill(hit_y);
     hz->Fill(hit_z);
     hx_y->Fill(hit_x, hit_y);
-    hz_y->Fill(hit_z, hit_z);
+    hz_y->Fill(hit_z, hit_y);
+    hTheta->Fill(theta);
+    hPhi->Fill(phi);
   }
 
   TFile* fOutput = new TFile("output_analysis.root", "recreate");
@@ -56,6 +58,8 @@ void analyze()
   hz->Write();
   hx_y->Write();
   hz_y->Write();
+  hTheta->Write();
+  hPhi->Write();
   fOutput->Close();
   fInput.Close();
 }

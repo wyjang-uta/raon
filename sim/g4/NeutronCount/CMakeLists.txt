@@ -51,6 +51,7 @@ set(EXAMPLEB1_SCRIPTS
   test.mac
   vis.mac
   analyze.C
+  GeneratePDFs.C
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})
