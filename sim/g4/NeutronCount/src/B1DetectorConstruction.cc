@@ -68,7 +68,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // World
   //
   G4double world_sizeXY = 11.0*m;
-  G4double world_sizeZ  = 1.1*m;
+  G4double world_sizeZ  = 1.5*m;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4Box* solidWorld =
@@ -120,6 +120,55 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                     checkOverlaps);          //overlaps checking
 
   //
+  // Neutron Moderator
+  //
+  G4double r_mod = 0.5 * m;
+  G4double l_mod = 0.2 * m; // thickness of the moderator is 20 cm
+  // Polyurethane C3H8N2O1
+  // Element definition from https://apc.u-paris.fr/~franco/g4doxy4.10/html/class_materials.html
+  // See the constructor source code line 54.
+  //
+  //                                          Z, A
+  G4Element* C = new G4Element("Carbon", "C", 6, 12.011*g/mole);
+  G4Element* H = new G4Element("Hydrogen", "H", 1, 1.00794*g/mole);
+  G4Element* N = new G4Element("Nitrogen", "N", 7, 14.00674*g/mole);
+  G4Element* O = new G4Element("Oxygen", "O", 8, 15.9994*g/mole);
+  G4Material* polyurethane = new G4Material(
+      "Polyurethane",   // its name
+      1100*kg/m3,       // its density
+      4,                // its number of elements
+      kStateSolid);     // its state
+  G4int natoms=3;
+  polyurethane->AddElement(C, natoms);
+  natoms=8;
+  polyurethane->AddElement(H, natoms);
+  natoms=2;
+  polyurethane->AddElement(N, natoms);
+  natoms=1;
+  polyurethane->AddElement(O, natoms);
+
+  G4Tubs* solid_mod_volume =
+    new G4Tubs("mod_volume",
+        0.,           // inner radius
+        r_mod,        // outer raduis
+        0.5 * l_mod,  // half-length of the moderator
+        0.,           // starting phi
+        2.* M_PI * rad ); // ending phi (full cylinder)
+  G4LogicalVolume* logic_mod_volume =
+    new G4LogicalVolume(solid_mod_volume,
+        polyurethane,
+        "mod_volume");
+  new G4PVPlacement(
+      0,                                              // no rotation
+      G4ThreeVector(0, 0, 0.5 * ( l_dump + l_mod ) ), // translation
+      logic_mod_volume,                               // its logical volume
+      "mod_volume",                                   // its name
+      logicWorld,                                     // its mother volume
+      false,                                          // no boolean operation
+      0,                                              // a copy number
+      checkOverlaps);                                 // overlaps checking
+
+  //
   // Front Endcap of Vacuum Vessel
   //  - It works as a virtual detection volume to know
   //  whether a particle is passing through this membrane
@@ -138,7 +187,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
         world_mat,
         "sensor_volume");
   new G4PVPlacement(0,        // no rotation
-      G4ThreeVector(0, 0, 0.5 * ( l_dump + l_sensor_volume ) ),        // where to put?
+      G4ThreeVector(0, 0, 0.5 * ( l_dump + 2*l_mod + l_sensor_volume ) ),        // where to put?
       logic_sensor_volume,    // its logical volume
       "sensor_volume",        // its name
       logicWorld,             // its mother volume
