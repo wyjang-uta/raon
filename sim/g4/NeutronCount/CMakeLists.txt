@@ -54,6 +54,7 @@ set(EXAMPLEB1_SCRIPTS
   GeneratePDFs.C
   scripts/batch/submit.sh
   scripts/batch/runscripts/generate_runscripts.sh
+  POT1e6.mac
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})
