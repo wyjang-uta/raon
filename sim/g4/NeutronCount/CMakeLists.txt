@@ -52,6 +52,8 @@ set(EXAMPLEB1_SCRIPTS
   vis.mac
   analyze.C
   GeneratePDFs.C
+  scripts/batch/submit.sh
+  scripts/batch/runscripts/generate_runscripts.sh
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})
