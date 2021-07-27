@@ -103,7 +103,11 @@
 # Make the "World" box invisible
 /vis/geometry/set/visibility World 0 false
 # "Dump" is transparent blue
-/vis/geometry/set/colour Dump 0 0 0 1 .3
+/vis/geometry/set/colour Dump 0 0 0 1 .6
+# moderator volume is green
+/vis/geometry/set/colour mod_volume 0 0 1 0 .6
+# sensor volume is red
+/vis/geometry/set/colour sensor_volume 0 1 0 0 .6
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
