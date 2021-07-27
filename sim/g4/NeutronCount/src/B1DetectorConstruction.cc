@@ -133,7 +133,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4Element* H = new G4Element("Hydrogen", "H", 1, 1.00794*g/mole);
   G4Element* N = new G4Element("Nitrogen", "N", 7, 14.00674*g/mole);
   G4Element* O = new G4Element("Oxygen", "O", 8, 15.9994*g/mole);
-  G4Material* mod_mat = new G4Material(
+  G4Material* polyurethane = new G4Material(
       "Polyurethane",   // its name
       1100*kg/m3,       // its density
       4,                // its number of elements
@@ -146,6 +146,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   polyurethane->AddElement(N, natoms);
   natoms=1;
   polyurethane->AddElement(O, natoms);
+
+  G4Material* mod_mat = polyurethane;
   //G4Material* mod_mat = nist->FindOrBuildMaterial("G4_B");
 
   G4Tubs* solid_mod_volume =
@@ -168,6 +170,28 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
       false,                                          // no boolean operation
       0,                                              // a copy number
       checkOverlaps);                                 // overlaps checking
+
+  // Neutron moderator sidewall
+  G4Tubs* solid_mod_sidewall =
+    new G4Tubs("mod_sidewall",
+        r_mod,
+        r_mod + l_mod,
+        0.5*(l_dump + l_mod),
+        0.,
+        2.* M_PI * rad );
+  G4LogicalVolume* logic_mod_sidewall =
+    new G4LogicalVolume(solid_mod_sidewall,
+        mod_mat,
+        "mod_sidewall");
+  new G4PVPlacement(
+      0,                              // no rotation
+      G4ThreeVector(0, 0, 0.5*l_mod), // translation
+      logic_mod_sidewall,             // its logical volume
+      "mod_sidewall",                 // its name
+      logicWorld,                     // its mother volume
+      false,                          // no boolean operation
+      0,                              // a copy number
+      checkOverlaps);                 // overlaps checking
 
   //
   // Front Endcap of Vacuum Vessel
