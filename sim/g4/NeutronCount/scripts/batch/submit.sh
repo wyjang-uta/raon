@@ -18,10 +18,17 @@ STARTTIME_STRING=`date`
 # Survey basic information of the user and working environment
 USRNAME=`whoami`
 WORKDIR=`pwd`
-RUNSCRIPT="$WORKDIR/run.sh"
 OUTDIR=$WORKDIR/output
-LOGDIR=$OUTDIR/$1/stdout
-ERRDIR=$OUTDIR/$1/stderr
+LOGDIR=$WORKDIR/log
+ERRDIR=$WORKDIR/err
+
+# Test if the LOGDIR and ERRDIR is exist
+if [ ! -e $LOGDIR ] ; then
+  mkdir $LOGDIR
+fi
+if [ ! -e $ERRDIR ] ; then
+  mkdir $ERRDIR
+fi
 
 # Job specific variables
 nruns=100
@@ -43,14 +50,14 @@ fi
 
 # Loop over 'nruns' jobs
 for (( i=1; i<=nruns; i++))
-  /usr/bin/qsub \
-    -q normal \
-    -o log/qsub_run${a}_log.stdout \
-    -e err/qsub_run${a}_err.stderr \
-    -l walltime=24:00:00,cput=24:00:00 \
-    -N "run${a}" \
-    runscripts/run${a}.sh
 do
+  /usr/bin/qsub \
+	-q normal \
+	-o log/qsub_run${i}_log.stdout \
+	-e err/qsub_run${i}_err.stderr \
+	-l walltime=24:00:00,cput=24:00:00 \
+	-N "run${i}" \
+	runscripts/run${i}.sh
 done
 
 echo "[submit.sh] End time: `date -u`"
