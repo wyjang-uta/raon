@@ -91,7 +91,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   auto analysisManager = G4AnalysisManager::Instance();
   G4String outputFileNamePrefix = "RAONSCL2_NeutronCountSim_Run";
   G4String seedString = std::to_string(G4Random::getTheSeed());
-  analysisManager->SetFileName(outputFileName+seedString);
+  analysisManager->SetFileName(outputFileNamePrefix+seedString);
   analysisManager->OpenFile();
 }
 
