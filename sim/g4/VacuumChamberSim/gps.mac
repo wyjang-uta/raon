@@ -1,0 +1,81 @@
+# Macro file for example B1
+# 
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
+#
+# Change the default number of workers (in multi-threading mode) 
+#/run/numberOfWorkers 4
+#
+# Initialize kernel
+/run/initialize
+#
+/control/verbose 0
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 0
+# 
+# gamma 6 MeV to the direction (0.,0.,1.)
+#
+#/gun/particle gamma
+#/gun/energy 6 MeV
+#
+#/run/beamOn 5
+# 
+# proton 210 MeV to the direction (0.,0.,1.)
+#
+/gps/particle neutron
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0. 0, -5. m
+/gps/pos/radius 5 m
+/gps/ene/mono 7.5 MeV
+
+# biases
+/gps/hist/type biasx
+/gps/hist/point -5.5 3
+/gps/hist/point -4.5 6
+/gps/hist/point -3.5 13
+/gps/hist/point -2.5 40
+/gps/hist/point -1.5 100
+/gps/hist/point -0.5 124
+/gps/hist/point 0.5 134
+/gps/hist/point 1.5 92
+/gps/hist/point 2.5 45
+/gps/hist/point 3.5 11
+/gps/hist/point 4.5 6
+/gps/hist/point 5.5 4
+
+/gps/hist/type biasy
+/gps/hist/point -5.5 7
+/gps/hist/point -4.5 11
+/gps/hist/point -3.5 11
+/gps/hist/point -2.5 35
+/gps/hist/point -1.5 81
+/gps/hist/point -0.5 119
+/gps/hist/point 0.5 132
+/gps/hist/point 1.5 106
+/gps/hist/point 2.5 48
+/gps/hist/point 3.5 18
+/gps/hist/point 4.5 7
+/gps/hist/point 5.5 3
+
+/gps/hist/type theta
+/gps/hist/point 0.25 1
+/gps/hist/point 0.35 8
+/gps/hist/point 0.45 14
+/gps/hist/point 0.55 31
+/gps/hist/point 0.65 31
+/gps/hist/point 0.75 32
+/gps/hist/point 0.85 40
+/gps/hist/point 0.95 47
+/gps/hist/point 1.05 87
+/gps/hist/point 1.15 87
+/gps/hist/point 1.25 78
+/gps/hist/point 1.35 90
+/gps/hist/point 1.45 31
+/gps/hist/point 1.55 1
+
+
+/tracking/verbose 0
+#
+/run/beamOn 10000
