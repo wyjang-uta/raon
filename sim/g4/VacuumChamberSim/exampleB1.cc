@@ -62,9 +62,12 @@ int main(int argc,char** argv)
   }
 
   // Optionally: choose a different Random engine
-  // G4Random::setTheEngine(new CLHEP::MTwistEngine);
-  G4long seed = 1;
-  G4Random::setTheSeed(seed);
+  G4Random::setTheEngine(new CLHEP::MTwistEngine);
+  // Detect a batch-job mode run
+  if ( argc == 3 ) {
+    G4long seed = atoi(argv[2]);
+    G4Random::setTheSeed(seed);
+  }
 
   // Construct the default run manager
   //
